@@ -1,0 +1,366 @@
+﻿@{
+    Layout = null;
+    Niunan.Blog.DAL.BlogDAL blogdal = ViewBag.blogdal;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>西十三のBLOG</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="/assets/Hexo/css/style.css" rel="stylesheet" />
+    @*<link href="/assets/Default/styles/font-awesome.css" rel="stylesheet" />*@
+    <script src="/assets/Hexo/js/jquery-1.10.2.min.js"></script>
+</head>
+
+<body>
+    <div id="container">
+      
+        <div class="left-col">
+            <div class="overlay"></div>
+            <div class="intrude-less">
+                <header id="header" class="inner">
+                    <a href="/" class="profilepic">
+                        <img lazy-src="http://ohe5u4k9s.bkt.clouddn.com/CjYi96_UUAEgLgd.jpg" class="js-avatar">
+                    </a>
+
+                    <hgroup>
+                        <h1 class="header-author"><a href="/">西十三のBlog</a></h1>
+                    </hgroup>
+
+                    <p class="header-subtitle">
+                        <div class="layui-input-inline">
+                            <input id="search_key" style="float:left; width:160px; height:30px;" type="text" name="title" class="layui-input">
+                            <button style="float:left;" class="layui-btn layui-btn-small" type="button" onclick="search()"><i class="layui-icon">&#xe615;</i>查询</button>
+                            <div class="clear"></div>
+                        </div>
+                    </p>
+                    <div class="switch-btn">
+                        <div class="icon">
+                            <div class="icon-ctn">
+                                <div class="icon-wrap icon-house" data-idx="0">
+                                    <div class="birdhouse"></div>
+                                    <div class="birdhouse_holes"></div>
+                                </div>
+                                <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                                    <div class="ribbon"></div>
+                                </div>
+
+                                <div class="icon-wrap icon-link hide" data-idx="2">
+                                    <div class="loopback_l"></div>
+                                    <div class="loopback_r"></div>
+                                </div>
+
+
+                                <div class="icon-wrap icon-me hide" data-idx="3">
+                                    <div class="user"></div>
+                                    <div class="shoulder"></div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="tips-box hide">
+                            <div class="tips-arrow"></div>
+                            <ul class="tips-inner">
+                                <li>菜单</li>
+                                <li>日历</li>
+
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="switch-area">
+                        <div class="switch-wrap">
+                            <section class="switch-part switch-part1">
+                                <nav class="header-menu">
+                                    <ul>
+                                        @foreach (Niunan.Blog.Model.Category ca in ViewBag.calist)
+                                        {
+                                            <li><a href="/Home/Index?cabh=@ca.Bh">@ca.CaName （@(blogdal.CalcCount($"cabh='{ca.Bh}'"))）</a></li>
+                                        } 
+                                    </ul>
+                                </nav>
+                              
+                            </section>
+
+                            <section class="switch-part switch-part2">
+                                <div class="widget">
+
+                                    <nav class="header-menu">
+                                        <ul>
+                                            @foreach (string month in ViewBag.blogmonth)
+                                            {
+                                                DateTime d = DateTime.Parse(month+"-01");
+                                                string cond = $"CreateDate>='{d.ToString("yyyy-MM-dd")}' and CreateDate<'{d.AddMonths(1).ToString("yyyy-MM-dd")}'";
+                                                <li><a href="/Home/Index?month=@month">@month （@(blogdal.CalcCount(cond))）</a></li>
+                                            } 
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </section>
+                            <div>
+                                <h1>Today Be Careful</h1>
+                            </div>
+                            <nav class="header-nav">
+                                <div class="social">
+                                    <a class="github" target="_blank" href="https://github.com/WestFive" title="github">githhub</a>                        
+                                    <a class="mail" target="_blank" href="mailto:chenlong5469@163.com" title="Email">Email</a>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                </header>
+            </div>
+
+        </div>
+        
+        <div class="mid-col">
+            <nav id="mobile-nav">
+                <div class="overlay">
+                    <h1 class="header-author js-mobile-header hide">不知道什么意思</h1>
+                </div>
+                <div class="intrude-less">
+                    <header id="header" class="inner">
+                        <div class="profilepic">
+                            <img src="http://ohe5u4k9s.bkt.clouddn.com/CjYi96_UUAEgLgd.jpg" class="js-avatar">
+                        </div>
+                        <hgroup>
+                            <h1 class="header-author">站点名称</h1>
+                        </hgroup>
+
+                        <p class="header-subtitle">站点描述</p>
+
+                        <nav class="header-menu">
+                            <ul>
+                                <li><a href="/">主页</a></li>
+
+                                <li><a href="/catalog/">分类一 （1）</a></li>
+                                <li><a href="/catalog/">分类一 （1）</a></li>
+                                <li><a href="/catalog/">分类一 （1）</a></li>
+                                <li><a href="/catalog/">分类一 （1）</a></li>
+
+                                <div class="clearfix"></div>
+                            </ul>
+                        </nav>
+                        <nav class="header-nav">
+                            <div class="social">
+                                <a class="github" target="_blank" href="https://github.com/WestFive" title="github">githhub</a>
+                                <a class="mail" target="_blank" href="mailto:chenlong5469@163.com" title="Email">Email</a>
+                            </div>
+                        </nav>
+                    </header>
+                </div>
+            </nav>
+
+            <div class="body-wrap">
+
+                <div id="blog_list">
+                    <article class="article article-type-post" itemscope itemprop="blogPost">
+                        <div class="article-meta">
+                            <a href="/post/" class="article-date">
+                                <time datetime="" itemprop="datePublished">2016年12月25日 21:22</time>
+                            </a>
+                        </div>
+                        <div class="article-inner">
+                            <input type="hidden" class="isFancy" />
+                            <header class="article-header">
+                                <h1 itemprop="name">
+                                    <a class="article-title" href="/post/Url">文章标题</a>
+                                </h1>
+                            </header>
+                            <div class="article-entry" itemprop="articleBody">
+                                这里是简要说明。。。
+                            </div>
+                            <div class="article-info article-info-index">
+                                <div class="article-tag tagcloud">
+                                    <ul class="article-tag-list">
+
+                                        <li class="article-tag-list-item"><a class="color1">.net</a></li> 
+                                    </ul>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+
+                <div>
+                    <div style="float: left; line-height: 55px;margin: 0 15px; font-size: 16px;">
+                        当前共<span id="totalcount"></span>篇文章，第<span id="pageindex"></span>页/共<span id="pagecount"></span>页
+                    </div>
+                    <div id="pages">
+
+                    </div>
+                </div>
+
+            </div>
+
+            <footer id="footer">
+                <div class="outer">
+                    <div id="footer-info">
+                        <div class="footer-left">
+                            版权所有  &copy; 2017
+                            <a href="http://www.westfive.cn" target="_blank">westfive</a>
+                        </div>
+                        <div class="footer-right">
+                            Powered by <a href="http://www.westfive.cn" target="_blank">westfive</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+            <input type="hidden" id="hf_key" value="@ViewBag.search_key" />
+            <input type="hidden" id="hf_month" value="@ViewBag.search_month" />
+            <input type="hidden" id="hf_cabh" value="@ViewBag.search_cabh" />
+        </div>
+
+        @*<link href="/assets/Hexo/css/fancybox.css" rel="stylesheet" />
+
+    <script src="/assets/Hexo/js/highlight.js"></script>*@
+    <script src="/assets/Hexo/js/r.js"></script>
+        <script src="/assets/Hexo/js/main.js"></script>
+        <script>
+            var yiliaConfig = {
+                fancybox: true,
+                mathjax: true,
+                animate: true,
+                isHome: true,
+                isPost: false,
+                isArchive: false,
+                isTag: false,
+                isCategory: false,
+                open_in_new: false
+            }
+        </script>
+    </div>
+    <!--分页-->
+    <link href="~/layui/css/layui.css" rel="stylesheet" />
+    <script src="~/layui/layui.js"></script>
+    <script>
+        var pagesize = 6; //页大小
+        /*分页*/
+        layui.use(['laypage', 'layer'], function () {
+            var laypage = layui.laypage, layer = layui.layer, $ = layui.jquery;
+
+            var postdata = getcond();
+            var url = "/Blog/GetTotalCount?t=" + new Date().valueOf();
+            $.post(url, postdata, function (count) {
+
+                var pagecount = (count % pagesize == 0 ? count / pagesize : Math.ceil(count / pagesize)); //总页数
+                //  console.log("总记录数：" + count + "，总页数：" + pagecount);
+                $('#totalcount').text(count);
+                $('#pagecount').text(pagecount);
+
+                laypage({
+                    cont: 'pages',
+                    pages: pagecount, //得到总页数
+                    jump: function (obj) {
+                        var pageindex = obj.curr;
+                        //layer.alert("点击了第" + pageindex + "页。");
+                        //读取后台数据数据返回JSON后拼接HTML
+                        load_blog_data(pageindex);
+                    }
+                });
+
+            });
+
+        });
+        /*加载第X页数据*/
+        function load_blog_data(pageindex) {
+            //  console.log("加载第" + pageindex + "页");
+
+
+            layui.use('layer', function () {
+                var $ = layui.jquery, layer = layui.layer;
+
+                $('#pageindex').text(pageindex);
+
+
+                var postdata = getcond();
+
+                var url = "/Blog/List?pageindex=" + pageindex + "&pagesize=" + pagesize;
+                $.post(url, postdata, function (json) {
+
+                    var html = '';
+                    $.each(json, function (i, blog) {
+                        //console.log("第" + i + "个元素：");
+                        // console.log(blog);
+                        var class_color ="color"+( i % 5 + 1); //颜色样式color1-5
+                        html += '<article class="article article-type-post" itemscope itemprop="blogPost">';
+                        html += '    <div class="article-meta">';
+                        html += '        <a href="/blog/show/' + blog.id + '" class="article-date">';
+                        html += '            <time datetime="" itemprop="datePublished">' + blog.createDate + '</time>';
+                        html += '        </a>';
+                        html += '    </div>';
+                        html += '    <div class="article-inner">';
+                        html += '        <input type="hidden" class="isFancy" />';
+                        html += '        <header class="article-header">';
+                        html += '            <h1 itemprop="name">';
+                        html += '                <a class="article-title" href="/blog/show/' + blog.id + '">' + blog.title + '</a>';
+                        html += '            </h1>';
+                        html += '        </header>';
+                        html += '        <div class="article-entry" itemprop="articleBody">';
+                        html += blog.desc;
+                        html += '        </div>';
+                        html += '        <div class="article-info article-info-index">';
+                        html += '            <div class="article-tag tagcloud">';
+                        html += '                <ul class="article-tag-list">';
+                        html += '                    <li class="article-tag-list-item"><a class="' + class_color + '">' + blog.caName + '</a></li>';
+                        html += '                </ul>';
+                        html += '            </div>';
+                        html += '            <div class="clearfix"></div>';
+                        html += '        </div>';
+                        html += '    </div>';
+                        html += '</article>';
+                    })
+
+                    $('#blog_list').html(html);
+
+                }, 'json');
+            })
+
+
+        }
+
+
+        /*拼接条件返回postdata*/
+        function getcond() {
+
+            var key = $("#hf_key").val() ;
+            var month = $("#hf_month").val();
+            var cabh = $("#hf_cabh").val();
+            var postdata = { key: key, month: month, cabh: cabh };
+            console.log(postdata);
+
+            return postdata;
+        }
+
+        /*取URL参数的方法(传入的参数是中文的时候有问题)*/
+        function getQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]); return null;
+        }
+
+
+        /*查询*/
+        function search() {
+
+            var key = $('#search_key').val();
+            var url = "/Home/Index?key=" + encodeURIComponent( key) ;
+            location.href = url;
+
+        }
+
+
+        /*计算左边分类和日历那一块显示的高度*/
+        var left_h = $(document).height() - $(".switch-part1").offset().top;
+        console.log("左边应该显示的高度："+left_h);
+        $('.switch-part1').css("max-height", left_h + "px");
+        $('.switch-part2').css("max-height", left_h + "px");
+    </script>
+</body>
+</html>
