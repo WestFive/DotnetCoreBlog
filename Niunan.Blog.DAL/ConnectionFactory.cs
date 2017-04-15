@@ -19,8 +19,8 @@ namespace Niunan.Blog.DAL
         /// <param name="connStr">数据库连接字符串</param>
         /// <returns></returns>
         public static DbConnection GetOpenConnection(string connStr)
-        { 
-            var connection = new  SqlConnection(connStr); 
+        {
+            var connection = new MySql.Data.MySqlClient.MySqlConnection(connStr);
             connection.Open(); 
             return connection; 
         }
