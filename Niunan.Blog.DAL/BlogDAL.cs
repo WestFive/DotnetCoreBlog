@@ -23,7 +23,7 @@ namespace Niunan.Blog.DAL
         public List<string> GetBlogMonth()
         {
             // mssql 
-             string sql = "select left( CONVERT(varchar(100), CreateDate, 23),7) as aaa from blog group by left( CONVERT(varchar(100), CreateDate, 23),7) order by aaa desc";
+             string sql = "select * from blog";
             //mysql
           //  string sql = "    select DATE_FORMAT(createdate,'%Y-%m') as aaa from blog group by DATE_FORMAT(createdate, '%Y-%m') order by aaa desc";
             using (var connection = ConnectionFactory.GetOpenConnection(ConnStr))
@@ -48,18 +48,22 @@ namespace Niunan.Blog.DAL
                 strWhere = " where " + strWhere;
             }
             // 使用offset,mssql2012以后有用
-            string sql = string.Format(
-                    "select * from blog {0} order by {1} offset {2} rows fetch next {3} rows only",
-                    strWhere,
-                    orderstr,
-                    (PageIndex - 1) * PageSize,
-                    PageSize
-                );
+            //string sql = string.Format(
+            //        "select * from blog {0} order by {1} offset {2} rows fetch next {3} rows only",
+            //        strWhere,
+            //        orderstr,
+            //        (PageIndex - 1) * PageSize,
+            //        PageSize
+            //    );
+            //string sql = "select * from  blog "/*+PageSize+" ("+PageIndex+"-1)*"+PageSize+","+PageIndex+"*; */ "; //不能拼接。
+            string sql = "select * from blog limit " + ((PageIndex - 1) * PageSize) + "," + PageSize;
             // string sql = $"select * from blog {strWhere} order by {orderstr} limit {(PageIndex-1) * PageSize},{PageSize}";
             List<Model.Blog> list = new List<Model.Blog>();
             using (var connection = ConnectionFactory.GetOpenConnection(ConnStr))
             {
-                list = connection.Query<Model.Blog>(sql).ToList();
+              list = connection.Query<Model.Blog>(sql).ToList();
+                
+                
             }
             return list;
         }

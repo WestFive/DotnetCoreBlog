@@ -110,9 +110,9 @@ namespace Niunan.Blog.DAL
             using (var connection = ConnectionFactory.GetOpenConnection(ConnStr))
             {
 
-                var m = connection.Query<Model.Category>("select * from category where bh=@bh",
-
-                  new { bh = caBh }).FirstOrDefault();
+                var sql = "SELECT * FROM category WHERE Bh = " + caBh + ";";
+                var m = connection.Query<Model.Category>(sql,
+                    new { Bh = caBh }).FirstOrDefault();
                 return m;
             }
         }
