@@ -23,13 +23,30 @@ namespace Niunan.Blog.DAL
         public List<string> GetBlogMonth()
         {
             // mssql 
-             string sql = "select * from blog";
+            string sql = "select CreateDate from blog";
             //mysql
-          //  string sql = "    select DATE_FORMAT(createdate,'%Y-%m') as aaa from blog group by DATE_FORMAT(createdate, '%Y-%m') order by aaa desc";
+            //  string sql = "    select DATE_FORMAT(createdate,'%Y-%m') as aaa from blog group by DATE_FORMAT(createdate, '%Y-%m') order by aaa desc";
             using (var connection = ConnectionFactory.GetOpenConnection(ConnStr))
             {
                 var list = connection.Query<string>(sql).ToList();
-                return list;
+                var newlist = new List<string>();
+                if (list != null)
+                {
+                    foreach (var item in list)
+                    {
+                        if (newlist.Count(x => Convert.ToDateTime(item).Year.ToString() + "年" + Convert.ToDateTime(item).Month.ToString() + "月" == x) > 0)
+                        {
+
+                        }
+                        else
+                        {
+                            newlist.Add(Convert.ToDateTime(item).Year.ToString()+"年"+ Convert.ToDateTime(item).Month.ToString()+"月");
+                        }
+
+                    }
+
+                }
+                return newlist;
             }
         }
 
@@ -61,9 +78,9 @@ namespace Niunan.Blog.DAL
             List<Model.Blog> list = new List<Model.Blog>();
             using (var connection = ConnectionFactory.GetOpenConnection(ConnStr))
             {
-              list = connection.Query<Model.Blog>(sql).ToList();
-                
-                
+                list = connection.Query<Model.Blog>(sql).ToList();
+
+
             }
             return list;
         }
@@ -133,7 +150,8 @@ namespace Niunan.Blog.DAL
             using (var connection = ConnectionFactory.GetOpenConnection(ConnStr))
             {
 
-                int res = connection.Execute(@"delete from Blog where id = @id", new { id = id });
+                string sql = "delete from blog where id = " + id + ";";
+                int res = connection.Execute(sql);
                 if (res > 0)
                 {
                     return true;
